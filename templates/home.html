@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Welcome! Enter Your Details</h1>
+    <form method="POST">
+        <input type="text" name="skills" placeholder="Skills (e.g., programming, writing)" required><br>
+        <input type="text" name="interests" placeholder="Interests (e.g., coding, art)" required><br>
+        <input type="text" name="education" placeholder="Education (e.g., B.Sc., High School)" required><br>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>

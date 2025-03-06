@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <h1>Your Career Dashboard</h1>
+    <h2>Your Profile</h2>
+    <p>Skills: {{ profile.skills }}</p>
+    <p>Interests: {{ profile.interests }}</p>
+    <p>Education: {{ profile.education }}</p>
+
+    <h2>AI Career Recommendation</h2>
+    <p><strong>Recommended Career:</strong> {{ recommendation.career }}</p>
+    <p><strong>Skills Needed:</strong> {{ recommendation.skills_needed|join(', ') }}</p>
+    <p><strong>Market Trend:</strong> {{ recommendation.market_trend }}</p>
+
+    <button onclick="visualizeCareer()">Visualize Career Path</button>
+    <div id="visualization"></div>
+
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
