@@ -1,111 +1,122 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session
 import json
 import os
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'  # Replace with a secure key
 
-# Enhanced AI recommendation function
 def get_career_recommendation(data):
     skills = data.get('skills', '').lower()
     interests = data.get('interests', '').lower()
     education = data.get('education', '').lower()
 
-    # Expanded logic with multiple conditions
     if 'programming' in skills or 'coding' in interests:
         career = "Software Developer"
         skills_needed = ["Python", "JavaScript", "Problem Solving"]
-        market_trend = "High demand in tech industry, especially for AI and cloud computing"
+        market_trend = "High demand in tech industry"
+        career_path = [
+            "Learn programming basics (e.g., Python, JavaScript)",
+            "Build small projects (e.g., web apps, games)",
+            "Secure an internship or junior developer role",
+            "Advance to mid-level or specialize (e.g., AI, backend)"
+        ]
     elif 'writing' in skills or 'communication' in interests:
         if 'marketing' in interests:
             career = "Digital Marketing Specialist"
             skills_needed = ["SEO", "Content Creation", "Analytics"]
             market_trend = "Growing demand due to online business expansion"
+            career_path = [
+                "Learn digital marketing basics (SEO, Google Analytics)",
+                "Create a portfolio of marketing campaigns",
+                "Gain experience through freelance or agency work",
+                "Lead marketing strategies for a company"
+            ]
         else:
             career = "Content Writer"
             skills_needed = ["SEO", "Grammar", "Creativity"]
             market_trend = "Stable demand in digital content creation"
+            career_path = [
+                "Master writing and editing skills",
+                "Build a portfolio of articles or blogs",
+                "Freelance or join a content team",
+                "Become a senior writer or editor"
+            ]
     elif 'design' in skills or 'art' in interests:
         if 'graphic' in skills or 'ui' in interests:
             career = "UI/UX Designer"
             skills_needed = ["Figma", "Adobe XD", "User Research"]
             market_trend = "Rising need for user-friendly digital interfaces"
+            career_path = [
+                "Learn design tools (Figma, Adobe XD)",
+                "Study user experience principles",
+                "Create mockups and prototypes",
+                "Work as a UI/UX designer in tech or freelance"
+            ]
         else:
             career = "Graphic Designer"
             skills_needed = ["Photoshop", "Illustrator", "Creativity"]
             market_trend = "Consistent demand in advertising and media"
+            career_path = [
+                "Learn graphic design software (Photoshop, Illustrator)",
+                "Build a portfolio of designs",
+                "Freelance or join a design agency",
+                "Specialize in branding or multimedia"
+            ]
     elif 'data' in skills or 'analysis' in interests:
         if 'statistics' in skills or 'math' in education:
             career = "Data Scientist"
             skills_needed = ["Python", "R", "Machine Learning"]
             market_trend = "Booming field with applications in all industries"
+            career_path = [
+                "Learn data science tools (Python, R)",
+                "Master statistics and machine learning",
+                "Work on real-world data projects",
+                "Become a lead data scientist or researcher"
+            ]
         else:
             career = "Data Analyst"
             skills_needed = ["Excel", "SQL", "Data Visualization"]
             market_trend = "High demand in business intelligence"
+            career_path = [
+                "Learn Excel and SQL basics",
+                "Practice data visualization (e.g., Tableau)",
+                "Analyze data for a company or client",
+                "Advance to senior analyst or BI roles"
+            ]
     elif 'teaching' in skills or 'education' in interests:
         career = "Educator/Trainer"
         skills_needed = ["Communication", "Subject Expertise", "Patience"]
         market_trend = "Steady demand in schools and corporate training"
-    elif 'business' in skills or 'management' in interests:
-        if 'mba' in education or 'masters' in education:
-            career = "Business Manager"
-            skills_needed = ["Leadership", "Strategic Planning", "Finance"]
-            market_trend = "Strong demand in corporate leadership roles"
-        else:
-            career = "Entrepreneur"
-            skills_needed = ["Risk Taking", "Marketing", "Networking"]
-            market_trend = "Growing opportunities with startup culture"
-    elif 'health' in skills or 'medicine' in interests:
-        if 'nursing' in education or 'medical' in education:
-            career = "Nurse Practitioner"
-            skills_needed = ["Patient Care", "Medical Knowledge", "Empathy"]
-            market_trend = "Critical demand in healthcare sectors"
-        else:
-            career = "Healthcare Assistant"
-            skills_needed = ["Basic Medical Skills", "Compassion", "Teamwork"]
-            market_trend = "Stable growth in support roles"
-    elif 'engineering' in skills or 'technology' in interests:
-        if 'mechanical' in education:
-            career = "Mechanical Engineer"
-            skills_needed = ["CAD", "Thermodynamics", "Problem Solving"]
-            market_trend = "Demand in manufacturing and automotive industries"
-        elif 'electrical' in education:
-            career = "Electrical Engineer"
-            skills_needed = ["Circuit Design", "Programming", "Troubleshooting"]
-            market_trend = "Growth in renewable energy and electronics"
-        else:
-            career = "Technical Support Specialist"
-            skills_needed = ["IT Skills", "Customer Service", "Problem Solving"]
-            market_trend = "Consistent need in tech support"
-    elif 'sales' in skills or 'negotiation' in interests:
-        career = "Sales Representative"
-        skills_needed = ["Communication", "Persuasion", "CRM Tools"]
-        market_trend = "Evergreen field across industries"
-    elif 'music' in skills or 'performance' in interests:
-        career = "Musician/Performer"
-        skills_needed = ["Instrument Proficiency", "Stage Presence", "Creativity"]
-        market_trend = "Niche but viable with digital platforms"
+        career_path = [
+            "Gain subject expertise or certification",
+            "Practice teaching or mentoring",
+            "Secure a teaching or training position",
+            "Lead educational programs or institutions"
+        ]
     else:
-        # Default fallback for unrecognized inputs
         career = "Career Explorer"
         skills_needed = ["Adaptability", "Learning Agility", "Curiosity"]
         market_trend = "Explore various fields to find your passion"
+        career_path = [
+            "Explore different skills and interests",
+            "Try internships or short courses",
+            "Identify a field that excites you",
+            "Pursue a specific career path"
+        ]
 
     return {
         "career": career,
         "skills_needed": skills_needed,
-        "market_trend": market_trend
+        "market_trend": market_trend,
+        "career_path": career_path
     }
 
-# Load users from JSON file
 def load_users():
     if os.path.exists('users.json'):
         with open('users.json', 'r') as f:
             return json.load(f)
     return {}
 
-# Save users to JSON file
 def save_users(users):
     with open('users.json', 'w') as f:
         json.dump(users, f)
@@ -164,6 +175,8 @@ def dashboard():
         return redirect(url_for('login'))
     users = load_users()
     profile = users[session['username']]['profile']
+    if not profile:
+        return redirect(url_for('home'))
     recommendation = get_career_recommendation(profile)
     return render_template('dashboard.html', profile=profile, recommendation=recommendation)
 

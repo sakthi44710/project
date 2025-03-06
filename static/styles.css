@@ -1,4 +1,3 @@
-/* General Styles */
 * {
     margin: 0;
     padding: 0;
@@ -15,7 +14,6 @@ body {
     color: #333;
 }
 
-/* Container for Login/Signup/Home */
 .container {
     display: flex;
     justify-content: center;
@@ -102,7 +100,6 @@ input:focus {
     text-decoration: underline;
 }
 
-/* Dashboard Styles */
 .dashboard-container {
     width: 100%;
     max-width: 1200px;
@@ -166,16 +163,6 @@ header h1 {
     color: #34495e;
 }
 
-.visualize-btn {
-    margin-top: 20px;
-    width: auto;
-    background: #2ecc71;
-}
-
-.visualize-btn:hover {
-    background: #27ae60;
-}
-
 .visualization {
     margin-top: 20px;
     padding: 15px;
@@ -185,7 +172,20 @@ header h1 {
     color: #7f8c8d;
 }
 
-/* Responsive Design */
+.visualization ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.visualization li {
+    margin: 10px 0;
+    padding: 10px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
 @media (max-width: 768px) {
     .content {
         flex-direction: column;

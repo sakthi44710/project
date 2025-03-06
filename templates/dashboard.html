@@ -6,6 +6,12 @@
     <title>Dashboard - Career Path</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Auto-display career path on page load
+        window.onload = function() {
+            visualizeCareer('{{ recommendation.career_path|tojson|safe }}');
+        };
+    </script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -25,7 +31,6 @@
                 <p><strong>Recommended Career:</strong> {{ recommendation.career }}</p>
                 <p><strong>Skills Needed:</strong> {{ recommendation.skills_needed|join(', ') }}</p>
                 <p><strong>Market Trend:</strong> {{ recommendation.market_trend }}</p>
-                <button onclick="visualizeCareer()" class="btn visualize-btn">Visualize Career Path</button>
                 <div id="visualization" class="visualization"></div>
             </div>
         </div>
